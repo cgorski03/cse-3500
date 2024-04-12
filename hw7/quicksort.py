@@ -36,6 +36,14 @@ def time_quicksort(arr, pivot_algorithm):
     return end - start
 
 
+def time_radixsort(arr):
+    """Radix sort wrapper that times the function"""
+    start = time.time()
+    radix_sort(arr)
+    end = time.time()
+    return end - start
+
+
 def measure_runtime(n):
     """RETURNS: 3 time tuples (pivot_last, pivot_random) where array is in order of Sorted list, reverse sorted list, random list"""
     input_array = [x for x in range(n)]
@@ -57,9 +65,35 @@ def measure_runtime(n):
     random_times = (
         time_quicksort(input_array, pivot_last),
         time_quicksort(input_array, pivot_random),
+        time_radixsort(input_array),
     )
 
     return sorted_times, reverse_times, random_times
+
+
+def radix_sort(arr):
+    """Radix sort implementation"""
+    radix_array = [[], [], [], [], [], [], [], [], [], []]
+    max_value = max(arr)
+    current_exponent = 1
+    # MAIN CONDITION: Loop until the max value divided by the exponent(one, tens place) is less than 0
+    # Basically, we will loop as many times as the number of digits in the max value
+    while max_value // current_exponent > 0:
+        # Loop through the array and append the values to the corresponding bucket
+        while len(arr) > 0:
+            # Pop the last element from the array
+            val = arr.pop()
+            # Get the digit at the current exponent place
+            digit_bucket = (val // current_exponent) % 10
+            # Append the value to the corresponding bucket
+            radix_array[digit_bucket].append(val)
+
+        for bucket in radix_array:
+            # Extend the array with the values in the bucket
+            arr.extend(bucket)
+        # Move to the next place
+        current_exponent *= 10
+    return arr
 
 
 if __name__ == "__main__":
@@ -77,5 +111,6 @@ if __name__ == "__main__":
         )
         print("Randomly Sorted Array:")
         print(
-            f"Pivot Last/ Random: {random_times[0]} seconds / {random_times[1]} seconds"
+            f"Pivot Last/ Random: {random_times[0]} seconds / {random_times[1]} seconds\n",
+            f"Radix Sort: {random_times[2]} seconds\n",
         )
