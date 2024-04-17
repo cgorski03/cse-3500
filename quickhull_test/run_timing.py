@@ -5,7 +5,8 @@ from Wrapping import convexHull as wrapping
 import time
 
 graph_sizes = [5, 10, 100, 1000, 10000, 100000, 250000, 400000, 1000000]
-TRIALS = 10
+# graph_sizes = [100000]
+TRIALS = 1
 
 
 # A class used to store the x and y coordinates of points

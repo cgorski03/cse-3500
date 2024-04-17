@@ -1,6 +1,5 @@
 # point class with x, y as point
 import time
-import random
 
 
 class Point:
@@ -90,13 +89,3 @@ def convexHull(points, n):
         # While we don't come to first point
         if p == l:
             break
-
-
-def randList(n):
-    list = []
-    for i in range(n):
-        randx = random.randint(0, 100)
-        randy = random.randint(0, 100)
-        point1 = [randx, randy]
-        list.append(point1)
-    return list

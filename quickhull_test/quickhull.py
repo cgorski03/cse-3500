@@ -1,10 +1,13 @@
 # python program to implement Quick Hull algorithm
 # to find convex hull.
-import time
-import random
-
 # Stores the result (points of convex hull)
 hull = set()
+
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 
 # Returns the side of point p with respect to line
@@ -56,7 +59,7 @@ def quickHull(a, n, p1, p2, side):
     quickHull(a, n, a[ind], p2, -findSide(a[ind], p2, p1))
 
 
-def printHull(a, n):
+def printHull(a: list[Point], n):
     # a[i].second -> y-coordinate of the ith point
     if n < 3:
         print("Convex hull not possible")

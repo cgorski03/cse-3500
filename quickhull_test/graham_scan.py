@@ -1,6 +1,4 @@
 from functools import cmp_to_key
-import time
-import random
 
 
 # A class used to store the x and y coordinates of points
@@ -121,15 +119,3 @@ def convexHull(points, n):
         while (len(S) > 1) and (orientation(nextToTop(S), S[-1], points[i]) != 2):
             S.pop()
         S.append(points[i])
-
-    # Now stack has the output points,
-
-
-def randList(n):
-    list = []
-    for i in range(n):
-        randx = random.randint(0, 100)
-        randy = random.randint(0, 100)
-        point1 = [randx, randy]
-        list.append(point1)
-    return list
