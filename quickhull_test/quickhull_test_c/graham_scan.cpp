@@ -168,31 +168,28 @@ int main(int argc, char *argv[])
 
   int n = std::stoi(argv[1]);
   int trials = std::stoi(argv[2]);
-  if (n <= 0)
-  {
-    std::cout << "Number of points must be a positive integer" << std::endl;
-    return 1;
-  }
+  // Initalize total duration counter
   double total_duration = 0.0;
   for (int i = 0; i < trials; i++)
   {
-    // Generate random points
+    // Generate the random points
     Point points[n];
     generateRandomPoints(points, n);
 
-    // Measure the execution time
+    // Start the timer
     auto start = std::chrono::high_resolution_clock::now();
 
     // Perform convex hull calculation
     convexHull(points, n);
-
+    // End the timer
     auto end = std::chrono::high_resolution_clock::now();
+    // Calculate the elapsed time
     std::chrono::duration<double> duration = end - start;
+    // Add the elapsed time to the total runtime duration
     total_duration += duration.count();
   }
-
-  // Print the execution time
-  std::cout << "GrahamExecution time: " << (total_duration / trials) << " seconds" << std::endl;
+  // Print out the runtime, dividing the duration by the trials for an average
+  std::cout << "Gift Wrapping Execution time: " << (total_duration / trials) << " seconds" << std::endl;
 
   return 0;
 }

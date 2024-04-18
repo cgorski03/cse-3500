@@ -106,7 +106,7 @@ void generateRandomPoints(iPair points[], int n)
   // Use current time as seed for random generator
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   std::default_random_engine generator(seed);
-  std::uniform_int_distribution<int> distribution(-1000, 10000);
+  std::uniform_int_distribution<int> distribution(-1000, 1000);
 
   // Generate random points
   for (int i = 0; i < n; i++)
@@ -124,33 +124,30 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  int n = std::stoi(argv[1]);      // Number of points
-  int trials = std::stoi(argv[2]); // Number of trials
-  if (n <= 0)
-  {
-    std::cout << "Number of points must be a positive integer" << std::endl;
-    return 1;
-  }
+  int n = std::stoi(argv[1]);
+  int trials = std::stoi(argv[2]);
+  // Initalize total duration counter
   double total_duration = 0.0;
   for (int i = 0; i < trials; i++)
   {
-    // Generate random points
+    // Generate the random points
     iPair points[n];
     generateRandomPoints(points, n);
 
-    // Measure the execution time
+    // Start the timer
     auto start = std::chrono::high_resolution_clock::now();
 
     // Perform convex hull calculation
     printHull(points, n);
-
+    // End the timer
     auto end = std::chrono::high_resolution_clock::now();
+    // Calculate the elapsed time
     std::chrono::duration<double> duration = end - start;
+    // Add the elapsed time to the total runtime duration
     total_duration += duration.count();
   }
-
-  // Print the execution time
-  std::cout << "Quickhull Execution time: " << (total_duration / trials) << " seconds" << std::endl;
+  // Print out the runtime, dividing the duration by the trials for an average
+  std::cout << "Gift Wrapping Execution time: " << (total_duration / trials) << " seconds" << std::endl;
 
   return 0;
 }
