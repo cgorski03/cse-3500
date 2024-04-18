@@ -1,19 +1,18 @@
-# Compiler
-CC = g++
+CXX = g++
+CXXFLAGS = -Wall -std=c++11
 
-# Compiler flags
-CFLAGS = -Wall -std=c++11
+# Find all .cpp files in the current directory
+SOURCES = $(wildcard *.cpp)
+# Get the corresponding executable names
+EXECUTABLES = $(SOURCES:.cpp=)
 
-# Source files
-SRCS = gift_wrapping.cpp graham_scan.cpp quickhull.cpp test_hull_algorithms.cpp
+.PHONY: all clean
 
-# Output binary
-OUT = test_hull_algorithms
+all: $(EXECUTABLES)
 
-all: $(OUT)
-
-$(OUT): $(SRCS)
-	$(CC) $(CFLAGS) -o $(OUT) $(SRCS)
+# Rule to build each executable
+%: %.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@
 
 clean:
-	rm -f $(OUT)
+	rm -f $(EXECUTABLES)

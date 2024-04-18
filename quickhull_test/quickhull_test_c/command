@@ -1,0 +1,1 @@
+./quickhull 1000000 10 > output.txt && ./graham_scan 1000000 10 >> output.txt && ./gift_wrapping 1000000 10 >> output.txt

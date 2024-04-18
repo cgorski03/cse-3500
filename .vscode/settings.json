@@ -1,5 +1,11 @@
 {
   "files.associations": {
-    "vector": "cpp"
+    "vector": "cpp",
+    "stack": "cpp",
+    "__bit_reference": "cpp",
+    "bitset": "cpp",
+    "set": "cpp",
+    "unordered_map": "cpp",
+    "iostream": "cpp"
   }
 }

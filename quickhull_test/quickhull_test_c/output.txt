@@ -1,0 +1,3 @@
+Quickhull Execution time: 0.146728 seconds
+Graham Scan Execution time: 0.463079 seconds
+Gift Wrapping Execution time: 0.18047 seconds

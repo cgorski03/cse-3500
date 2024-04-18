@@ -4,11 +4,18 @@
 #include <iostream>
 #include <stack>
 #include <stdlib.h>
-#include "hull.h"
+#include <chrono>
+#include <random>
+
 using namespace std;
 
-// A global point needed for  sorting points with reference
-// to  the first point Used in compare function of qsort()
+struct Point
+{
+  int x, y;
+};
+
+// A global point needed for sorting points with reference
+// to the first point Used in compare function of qsort()
 Point p0;
 
 // A utility function to find next to top in a stack
@@ -42,6 +49,15 @@ int distSq(Point p1, Point p2)
 // 0 --> p, q and r are collinear
 // 1 --> Clockwise
 // 2 --> Counterclockwise
+int orientation(Point p, Point q, Point r)
+{
+  int val = (q.y - p.y) * (r.x - q.x) -
+            (q.x - p.x) * (r.y - q.y);
+
+  if (val == 0)
+    return 0;               // collinear
+  return (val > 0) ? 1 : 2; // clock or counterclock wise
+}
 
 // A function used by library function qsort() to sort an array of
 // points with respect to the first point
@@ -124,12 +140,59 @@ void convexHull(Point points[], int n)
       S.pop();
     S.push(points[i]);
   }
+}
 
-  // Now stack has the output points, print contents of stack
-  while (!S.empty())
+// Function to generate random points
+void generateRandomPoints(Point points[], int n)
+{
+  // Use current time as seed for random generator
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::default_random_engine generator(seed);
+  std::uniform_int_distribution<int> distribution(-1000, 10000);
+
+  // Generate random points
+  for (int i = 0; i < n; i++)
   {
-    Point p = S.top();
-    cout << "(" << p.x << ", " << p.y << ")" << endl;
-    S.pop();
+    points[i].x = distribution(generator);
+    points[i].y = distribution(generator);
   }
+}
+
+int main(int argc, char *argv[])
+{
+  if (argc != 3)
+  {
+    std::cout << "Usage: ./program_name <number_of_points> <number_of_trials>" << std::endl;
+    return 1;
+  }
+
+  int n = std::stoi(argv[1]);
+  int trials = std::stoi(argv[2]);
+  if (n <= 0)
+  {
+    std::cout << "Number of points must be a positive integer" << std::endl;
+    return 1;
+  }
+  double total_duration = 0.0;
+  for (int i = 0; i < trials; i++)
+  {
+    // Generate random points
+    Point points[n];
+    generateRandomPoints(points, n);
+
+    // Measure the execution time
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // Perform convex hull calculation
+    convexHull(points, n);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    total_duration += duration.count();
+  }
+
+  // Print the execution time
+  std::cout << "GrahamExecution time: " << (total_duration / trials) << " seconds" << std::endl;
+
+  return 0;
 }
